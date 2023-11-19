@@ -1,25 +1,39 @@
 import Container from "@/components/ui/container"
-import Heading from "@/components/ui/heading"
-import { DataTable } from "./components/data-table"
-import { columns } from "./components/columns"
-import getUserOrders from "@/actions/get-user-orders"
+import { ORDER_TYPE } from "./components/columns"
+import prisma from "@/lib/prisma"
+import { format } from "date-fns"
+import OrderClient from "./components/client"
+
+export const revalidate = 0
 
 export default async function Account({
    searchParams,
 }: {
    searchParams?: { [key: string]: string | string[] | undefined }
 }) {
-   const userid = searchParams?.id
-   const res = await getUserOrders(String(userid))
+   const userid = searchParams!.id as string
 
-   // console.log(res)
+   const orders = await prisma.order.findMany({
+      where: {
+         userId: userid,
+      },
+   })
+
+   const data: ORDER_TYPE[] = orders.map((order) => ({
+      id: order.id,
+      price: order.price,
+      emails: order.emails,
+      isPaid: order.isPaid,
+      address: order.address,
+      age: order.age,
+      phone: order.phone,
+      country: order.country,
+      createdAt: format(order.createdAt, "MMMM do, yyyy"),
+   }))
 
    return (
       <Container>
-         <div className="space-y-5">
-            <Heading title="Orders" subtitle="All of your orders are here." />
-            {/* <DataTable columns={columns} data={data!} /> */}
-         </div>
+         <OrderClient data={data} />
       </Container>
    )
 }

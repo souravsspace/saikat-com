@@ -57,9 +57,9 @@ function Navbar() {
                               <DropdownMenuLabel>My Account</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuGroup>
-                                 <Link href={`/account?id=${userId}/`}>
+                                 <Link href={`/account?id=${userId}`}>
                                     <DropdownMenuItem>
-                                       Profile
+                                       Dashboard
                                        <DropdownMenuShortcut>
                                           ⇧⌘P
                                        </DropdownMenuShortcut>
@@ -86,7 +86,7 @@ function Navbar() {
                            <Link href="/why-choose-us">Why choose us?</Link>
                         </li>
                         <li>
-                           <Link href={`/account?id=${userId}/`}>Account</Link>
+                           <Link href={`/account?id=${userId}`}>Account</Link>
                         </li>
                      </>
                   )}

@@ -9,7 +9,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { Copy, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
-import { ORDER_TYPE } from "./columns"
+import { ORDER_TYPE } from "../../app/(root)/account/components/columns"
+import { deleteOrderHistory } from "@/actions/delete-order-history"
+
 
 interface CellActionProps {
    data: ORDER_TYPE
@@ -21,7 +23,15 @@ export default function CellAction({ data }: CellActionProps) {
       toast.success("Copied to clipboard")
    }
 
-   const onDelete = async () => {}
+   const onDelete = async () => {
+      try {
+         await deleteOrderHistory(data.id)
+         toast.success("Order Deleted!")
+         window.location.reload()
+      } catch (error) {
+         toast.error("Failed to delete order")
+      }
+   }
 
    return (
       <DropdownMenu>
@@ -38,7 +48,7 @@ export default function CellAction({ data }: CellActionProps) {
                <Copy className="h-4 w-4 mr-2" />
                Copy Id
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onDelete()}>
                <Trash className="h-4 w-4 mr-2" />
                Delete
             </DropdownMenuItem>

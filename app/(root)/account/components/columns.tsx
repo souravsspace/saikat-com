@@ -1,5 +1,7 @@
+"use client"
+
 import { ColumnDef } from "@tanstack/react-table"
-import CellAction from "./cell-action"
+import CellAction from "@/components/ui/cell-action"
 
 export type ORDER_TYPE = {
    id: string
@@ -10,7 +12,7 @@ export type ORDER_TYPE = {
    age: boolean
    phone: boolean
    country: string
-   createdAt: Date
+   createdAt: string
 }
 
 export const columns: ColumnDef<ORDER_TYPE>[] = [
@@ -21,6 +23,11 @@ export const columns: ColumnDef<ORDER_TYPE>[] = [
    {
       accessorKey: "emails",
       header: "Emails",
+   },
+   {
+      accessorKey: "price",
+      header: "Price",
+      cell: ({ row }) => <span>${row.original.price}</span>,
    },
    {
       accessorKey: "isPaid",

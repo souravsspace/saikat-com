@@ -42,34 +42,35 @@ export async function POST(request: Request) {
          },
       },
    })
-   console.log("the order", order)
 
-   const line_item: Stripe.Checkout.SessionCreateParams.LineItem[] = []
+   return NextResponse.json(order, { status: 200 })
 
-   line_item.push({
-      price_data: {
-         currency: "usd",
-         product_data: {
-            name: `Emails: ${emailCount} and others`,
-         },
-         unit_amount: total,
-      },
-      quantity: emailCount,
-   })
+   // const line_item: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
-   const session = await stripe.checkout.sessions.create({
-      line_items: line_item,
-      mode: "payment",
-      billing_address_collection: "required",
-      phone_number_collection: {
-         enabled: true,
-      },
-      success_url: `${origin}?success=1`,
-      cancel_url: `${origin}?cancel=1`,
-      metadata: {
-         order_id: order.id,
-      },
-   })
+   // line_item.push({
+   //    price_data: {
+   //       currency: "usd",
+   //       product_data: {
+   //          name: `Emails: ${emailCount} and others`,
+   //       },
+   //       unit_amount: total,
+   //    },
+   //    quantity: emailCount,
+   // })
 
-   return NextResponse.json({ url: session.url, id: order.id }, { status: 200 })
+   // const session = await stripe.checkout.sessions.create({
+   //    line_items: line_item,
+   //    mode: "payment",
+   //    billing_address_collection: "required",
+   //    phone_number_collection: {
+   //       enabled: true,
+   //    },
+   //    success_url: `${origin}?success=1`,
+   //    cancel_url: `${origin}?cancel=1`,
+   //    metadata: {
+   //       order_id: order.id,
+   //    },
+   // })
+
+   // return NextResponse.json({ url: session.url, id: order.id }, { status: 200 })
 }

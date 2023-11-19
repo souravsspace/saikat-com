@@ -8,39 +8,20 @@ datasource db {
 }
 
 model Server {
-  id      String          @id @default(cuid())
-  emails  ServerEmail[]
-  numbers ServerNumber[]
-  address ServerAddress[]
-  age     ServerAge[]
+  id    String       @id @default(cuid())
+  datas ServerData[] @relation("ServerToData")
 }
 
-model ServerEmail {
-  id       String  @id @default(cuid())
+model ServerData {
+  id       String @id @default(cuid())
   email    String
-  server   Server? @relation(fields: [serverId], references: [id])
-  serverId String?
-}
-
-model ServerNumber {
-  id       String  @id @default(cuid())
   number   String
-  server   Server? @relation(fields: [serverId], references: [id])
-  serverId String?
-}
-
-model ServerAddress {
-  id       String  @id @default(cuid())
   address  String
-  server   Server? @relation(fields: [serverId], references: [id])
-  serverId String?
-}
-
-model ServerAge {
-  id       String  @id @default(cuid())
   age      String
-  server   Server? @relation(fields: [serverId], references: [id])
-  serverId String?
+  server   Server @relation("ServerToData", fields: [serverId], references: [id])
+  serverId String
+
+  @@index([serverId])
 }
 
 model User {
@@ -50,39 +31,39 @@ model User {
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  emails    Email[]
-  numbers   Number[]
-  address   Address[]
-  age       Age[]
-  orders    Order[]
+  emails    Email[]   @relation("EmailToUser")
+  numbers   Number[]  @relation("NumberToUser")
+  addresses Address[] @relation("AddressToUser")
+  ages      Age[]     @relation("AgeToUser")
+  orders    Order[]   @relation("OrderToUser")
 }
 
 model Email {
-  id        String  @id @default(cuid())
-  email     String
-  User      User?   @relation(fields: [userEmail], references: [email])
-  userEmail String?
+  id     String @id @default(cuid())
+  email  String
+  user   User   @relation("EmailToUser", fields: [userId], references: [email])
+  userId String
 }
 
 model Number {
-  id        String  @id @default(cuid())
-  number    String
-  User      User?   @relation(fields: [userEmail], references: [email])
-  userEmail String?
+  id     String @id @default(cuid())
+  number String
+  user   User   @relation("NumberToUser", fields: [userId], references: [email])
+  userId String
 }
 
 model Address {
-  id        String  @id @default(cuid())
-  address   String
-  User      User?   @relation(fields: [userEmail], references: [email])
-  userEmail String?
+  id      String @id @default(cuid())
+  address String
+  user    User   @relation("AddressToUser", fields: [userId], references: [email])
+  userId  String
 }
 
 model Age {
-  id        String  @id @default(cuid())
-  age       String
-  User      User?   @relation(fields: [userEmail], references: [email])
-  userEmail String?
+  id     String @id @default(cuid())
+  age    String
+  user   User   @relation("AgeToUser", fields: [userId], references: [email])
+  userId String
 }
 
 model Order {
@@ -96,6 +77,6 @@ model Order {
   country   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  user      User     @relation("OrderToUser", fields: [userId], references: [id])
+  userId    String
 }

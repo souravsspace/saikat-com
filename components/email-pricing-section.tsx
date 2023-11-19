@@ -19,6 +19,8 @@ import toast from "react-hot-toast"
 export default function EmailPricingSection() {
    const searchParams = useSearchParams()
 
+   const [loading, setLoading] = useState(false)
+
    const [country, setCountry] = useState("")
    const [phone, setPhone] = useState(false)
    const [address, setAddress] = useState(false)
@@ -52,16 +54,20 @@ export default function EmailPricingSection() {
          id: session.data?.user?.id,
       }
       try {
+         setLoading(true)
          await axios.post("/api/checkout", data)
+         toast.success("Payment Successful!")
 
-         if (searchParams.get("success")) {
-            toast.success("Payment Successful!")
-         }
-         if (searchParams.get("cancel")) {
-            toast.error("Payment Cancelled!")
-         }
+         // if (searchParams.get("success")) {
+         //    toast.success("Payment Successful!")
+         // }
+         // if (searchParams.get("cancel")) {
+         //    toast.error("Payment Cancelled!")
+         // }
       } catch (error) {
          toast.error("Something went wrong!")
+      } finally {
+         setLoading(false)
       }
    }
 
@@ -96,8 +102,14 @@ export default function EmailPricingSection() {
                   totalEmails={emailCount}
                />
             </CardContent>
-            <CardFooter>
-               <Button onClick={handleCheckout}>Buy Now</Button>
+            <CardFooter className="flex justify-end">
+               <Button
+                  disabled={loading}
+                  onClick={handleCheckout}
+                  className="w-full lg:w-auto"
+               >
+                  Buy Now
+               </Button>
             </CardFooter>
          </Card>
       </div>
