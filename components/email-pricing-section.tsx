@@ -11,18 +11,59 @@ import { useState } from "react"
 import SummaryCard from "./summary-card"
 import { Button } from "./ui/button"
 import { EmailPricingCard } from "./email-pricing-card"
+import { useSearchParams } from "next/navigation"
+import axios from "axios"
+import { useSession } from "next-auth/react"
+import toast from "react-hot-toast"
 
 export default function EmailPricingSection() {
-   const [country, setCountry] = useState("usa")
+   const searchParams = useSearchParams()
+
+   const [country, setCountry] = useState("")
    const [phone, setPhone] = useState(false)
    const [address, setAddress] = useState(false)
    const [age, setAge] = useState(false)
 
    const [emailCount, setEmailCount] = useState(100)
-   const phonePrice = 15
-   const addressPrice = 10
-   const agePrice = 20
+
+   const priceOfPhone = 15
+   const priceOfAddress = 10
+   const priceOfAge = 20
+
+   const phonePrice = phone ? priceOfPhone : 0
+   const addressPrice = address ? priceOfAddress : 0
+   const agePrice = age ? priceOfAge : 0
    const emailPerUnitPrice = 0.05
+
+   const priceOfEmails = emailCount * emailPerUnitPrice
+
+   const total = phonePrice + addressPrice + agePrice + priceOfEmails
+
+   const session = useSession()
+
+   const handleCheckout = async () => {
+      const data = {
+         country,
+         phone,
+         address,
+         age,
+         emailCount,
+         total,
+         id: session.data?.user?.id,
+      }
+      try {
+         await axios.post("/api/checkout", data)
+
+         if (searchParams.get("success")) {
+            toast.success("Payment Successful!")
+         }
+         if (searchParams.get("cancel")) {
+            toast.error("Payment Cancelled!")
+         }
+      } catch (error) {
+         toast.error("Something went wrong!")
+      }
+   }
 
    return (
       <div className="flex gap-2 flex-col lg:flex-row">
@@ -37,9 +78,9 @@ export default function EmailPricingSection() {
             setAge={setAge}
             emailCount={emailCount}
             setEmailCount={setEmailCount}
-            phonePrice={phonePrice}
-            addressPrice={addressPrice}
-            agePrice={agePrice}
+            phonePrice={priceOfPhone}
+            addressPrice={priceOfAddress}
+            agePrice={priceOfAge}
          />
          <Card className="flex-1">
             <CardHeader>
@@ -47,19 +88,16 @@ export default function EmailPricingSection() {
             </CardHeader>
             <CardContent className="space-y-5 mt-4">
                <SummaryCard
-                  country={country}
-                  phone={phone}
-                  address={address}
-                  age={age}
-                  addressPrice={addressPrice}
+                  total={total}
                   phonePrice={phonePrice}
+                  addressPrice={addressPrice}
                   agePrice={agePrice}
-                  emailCount={emailCount}
-                  emailPerUnitPrice={emailPerUnitPrice}
+                  priceOfEmails={priceOfEmails}
+                  totalEmails={emailCount}
                />
             </CardContent>
             <CardFooter>
-               <Button>Buy Now</Button>
+               <Button onClick={handleCheckout}>Buy Now</Button>
             </CardFooter>
          </Card>
       </div>

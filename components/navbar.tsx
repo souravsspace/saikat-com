@@ -14,28 +14,38 @@ import {
    DropdownMenuShortcut,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Image from "next/image"
 
 function Navbar() {
    const { data: session, status } = useSession()
+   const userId = session?.user?.id!
 
    return (
-      <nav className="py-4 sm:py-8">
+      <nav className="pt-4 sm:pt-8">
          <Container>
             <div className="flex justify-between items-center">
                <h2 className="text-primary-100">
-                  <Link href="/">HQ Dataleads</Link>
+                  <Link href="/">
+                     <Image
+                        src="/logo.png"
+                        alt="logo"
+                        width={150}
+                        height={150}
+                        className="object-contain"
+                     />
+                  </Link>
                </h2>
                <ul className="flex items-center gap-3">
-                  <li>
+                  <li className="mr-5">
                      <Link href="/service">Service</Link>
-                  </li>
-                  <li>
-                     <Link href="/why-choose-us">Why choose us?</Link>
                   </li>
                   <li>
                      {status === "authenticated" ? (
                         <DropdownMenu>
-                           <DropdownMenuTrigger asChild>
+                           <DropdownMenuTrigger
+                              asChild
+                              className="cursor-pointer"
+                           >
                               <Avatar>
                                  <AvatarImage src="" />
                                  <AvatarFallback className="uppercase">
@@ -47,7 +57,7 @@ function Navbar() {
                               <DropdownMenuLabel>My Account</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuGroup>
-                                 <Link href="account">
+                                 <Link href={`/account?id=${userId}/`}>
                                     <DropdownMenuItem>
                                        Profile
                                        <DropdownMenuShortcut>
@@ -71,12 +81,18 @@ function Navbar() {
                   {status === "authenticated" ? (
                      ""
                   ) : (
-                     <li>
-                        <Link href="/account">Account</Link>
-                     </li>
+                     <>
+                        <li>
+                           <Link href="/why-choose-us">Why choose us?</Link>
+                        </li>
+                        <li>
+                           <Link href={`/account?id=${userId}/`}>Account</Link>
+                        </li>
+                     </>
                   )}
                </ul>
             </div>
+            {/* <Separator className="my-4" /> */}
          </Container>
       </nav>
    )

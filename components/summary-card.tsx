@@ -1,36 +1,30 @@
 type Props = {
-   country: string
-   phone: boolean
-   address: boolean
-   age: boolean
-   addressPrice: number
+   total: number
    phonePrice: number
+   addressPrice: number
    agePrice: number
-   emailCount: number
-   emailPerUnitPrice: number
+   priceOfEmails: number
+   totalEmails: number
 }
 
 function SummaryCard({
-   country,
-   phone,
-   address,
-   age,
-   addressPrice,
+   total,
    phonePrice,
+   addressPrice,
    agePrice,
-   emailCount,
-   emailPerUnitPrice,
+   priceOfEmails,
+   totalEmails,
 }: Props) {
-   const showAddress = address ? addressPrice : 0
-   const showPhone = phone ? phonePrice : 0
-   const showAge = age ? agePrice : 0
-   const showEmail = emailCount * emailPerUnitPrice
-
-   const total = showAddress + showPhone + showAge + showEmail
    return (
       <div>
          <div className="space-y-2">
-            {phone && (
+            <div className="flex justify-between items-center">
+               <h3 className="text-lg font-medium">Emails - ({totalEmails})</h3>
+               <h3 className="text-lg font-medium">
+                  ${priceOfEmails.toFixed(2)}
+               </h3>
+            </div>
+            {phonePrice !== 0 && (
                <div className="flex justify-between items-center">
                   <h3 className="text-lg font-medium">Phone</h3>
                   <h3 className="text-lg font-medium">
@@ -38,7 +32,7 @@ function SummaryCard({
                   </h3>
                </div>
             )}
-            {age && (
+            {agePrice !== 0 && (
                <div className="flex justify-between items-center">
                   <h3 className="text-lg font-medium">Age</h3>
                   <h3 className="text-lg font-medium">
@@ -46,9 +40,9 @@ function SummaryCard({
                   </h3>
                </div>
             )}
-            {address && (
+            {addressPrice !== 0 && (
                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-medium">Address</h3>
+                  <h3 className="text-lg font-medium">Street Address</h3>
                   <h3 className="text-lg font-medium">
                      ${addressPrice.toFixed(2)}
                   </h3>
