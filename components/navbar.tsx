@@ -35,13 +35,19 @@ function Navbar() {
                      />
                   </Link>
                </h2>
-               <ul className="flex items-center gap-3">
+               <ul className="flex items-center gap-4">
                   <li className="hidden sm:block">
                      <Link href="/service">Service</Link>
                   </li>
-                  <li className="mr-5 hidden sm:block">
-                     <Link href="/why-choose-us">Why choose us?</Link>
-                  </li>
+                  {status === "authenticated" ? (
+                     <li className="hidden sm:block mr-6">
+                        <Link href={`/dashboard?id=${userId}`}>Dashboard</Link>
+                     </li>
+                  ) : (
+                     <li className="mr-6 hidden sm:block">
+                        <Link href="/why-choose-us">Why choose us?</Link>
+                     </li>
+                  )}
                   <li>
                      {status === "authenticated" ? (
                         <DropdownMenu>
@@ -60,7 +66,10 @@ function Navbar() {
                               <DropdownMenuLabel>My Account</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuGroup>
-                                 <Link href={`/dashboard?id=${userId}`}>
+                                 <Link
+                                    href={`/dashboard?id=${userId}`}
+                                    className="block sm:hidden"
+                                 >
                                     <DropdownMenuItem>
                                        Dashboard
                                        <DropdownMenuShortcut>
@@ -89,13 +98,6 @@ function Navbar() {
                         <Link href="/login">Login</Link>
                      )}
                   </li>
-                  {status === "authenticated" ? (
-                     <li className="hidden sm:block">
-                        <Link href={`/dashboard?id=${userId}`}>Dashboard</Link>
-                     </li>
-                  ) : (
-                     <></>
-                  )}
                </ul>
             </div>
             {/* <Separator className="my-4" /> */}
