@@ -80,32 +80,36 @@ export function EmailPricingCard(props: EmailPricingCardProps) {
             </div>
          </CardContent>
          <CardFooter className="mt-5">
-            <div className="flex w-full justify-between gap-1">
-               <span className="flex items-center gap-1">
+            <div className="flex flex-wrap gap-2 sm:gap-4 justify-between items-center">
+               <span className="flex items-center gap-2">
                   <Checkbox
                      id="phone"
                      onCheckedChange={() => props.setPhone((prev) => !prev)}
                      defaultChecked={props.phone}
                   />
-                  <Label htmlFor="phone">Phone ${props.phonePrice}</Label>
+                  <Label className="text-sm sm:text-base" htmlFor="phone">
+                     Phone ${props.phonePrice}
+                  </Label>
                </span>
-               <span className="flex items-center gap-1">
+               <span className="flex items-center gap-2">
                   <Checkbox
                      id="address"
                      onCheckedChange={() => props.setAddress((prev) => !prev)}
                      defaultChecked={props.address}
                   />
-                  <Label htmlFor="address">
+                  <Label className="text-sm sm:text-base" htmlFor="address">
                      Street Address ${props.addressPrice}
                   </Label>
                </span>
-               <span className="flex items-center gap-1">
+               <span className="flex items-center gap-2">
                   <Checkbox
                      id="age"
                      onCheckedChange={() => props.setAge((prev) => !prev)}
                      defaultChecked={props.age}
                   />
-                  <Label htmlFor="age">Age ${props.agePrice}</Label>
+                  <Label className="text-sm sm:text-base" htmlFor="age">
+                     Age ${props.agePrice}
+                  </Label>
                </span>
             </div>
          </CardFooter>

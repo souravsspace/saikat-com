@@ -19,6 +19,7 @@ import toast from "react-hot-toast"
 export default function EmailPricingSection() {
    const searchParams = useSearchParams()
 
+
    const [loading, setLoading] = useState(false)
 
    const [country, setCountry] = useState("")

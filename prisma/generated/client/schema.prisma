@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Data {
+  id         BigInt   @id @default(autoincrement()) @db.BigInt
+  first_name String?   @db.VarChar(100)
+  last_name  String?   @db.VarChar(100)
+  address    String?   @db.Text
+  county     String?   @db.VarChar(70)
+  city       String?   @db.VarChar(70)
+  state      String?   @db.VarChar(70)
+  zip        Int?      @db.Integer
+  phone      Int?      @db.Integer
+  carrier    String?   @db.Text
+  gender     String?   @db.VarChar(30)
+  ethnicity  String?  @db.Text
+  ownrent    String?  @db.VarChar(30)
+  latitude   Decimal? @db.Decimal()
+  longitude  Decimal? @db.Decimal()
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String    @db.VarChar(255)
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  emails    Email[]   @relation("EmailToUser")
+  numbers   Number[]  @relation("NumberToUser")
+  addresses Address[] @relation("AddressToUser")
+  ages      Age[]     @relation("AgeToUser")
+  orders    Order[]   @relation("OrderToUser")
+}
+
+model Email {
+  id     String @id @default(cuid())
+  email  String
+  user   User   @relation("EmailToUser", fields: [userId], references: [email])
+  userId String
+}
+
+model Number {
+  id     String @id @default(cuid())
+  number String
+  user   User   @relation("NumberToUser", fields: [userId], references: [email])
+  userId String
+}
+
+model Address {
+  id      String @id @default(cuid())
+  address String
+  user    User   @relation("AddressToUser", fields: [userId], references: [email])
+  userId  String
+}
+
+model Age {
+  id     String @id @default(cuid())
+  age    String
+  user   User   @relation("AgeToUser", fields: [userId], references: [email])
+  userId String
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  price     Int
+  emails    Int
+  isPaid    Boolean  @default(false)
+  address   Boolean  @default(false)
+  age       Boolean  @default(false)
+  phone     Boolean  @default(false)
+  country   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation("OrderToUser", fields: [userId], references: [id])
+  userId    String
+}

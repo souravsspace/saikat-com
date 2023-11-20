@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -7,21 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Server {
-  id    String       @id @default(cuid())
-  datas ServerData[] @relation("ServerToData")
-}
-
-model ServerData {
-  id       String @id @default(cuid())
-  email    String
-  number   String
-  address  String
-  age      String
-  server   Server @relation("ServerToData", fields: [serverId], references: [id])
-  serverId String
-
-  @@index([serverId])
+model Data {
+  id         BigInt   @id @default(autoincrement()) @db.BigInt
+  first_name String?   @db.VarChar(100)
+  last_name  String?   @db.VarChar(100)
+  address    String?   @db.Text
+  county     String?   @db.VarChar(70)
+  city       String?   @db.VarChar(70)
+  state      String?   @db.VarChar(70)
+  zip        Int?      @db.Integer
+  phone      Int?      @db.Integer
+  carrier    String?   @db.Text
+  gender     String?   @db.VarChar(30)
+  ethnicity  String?  @db.Text
+  ownrent    String?  @db.VarChar(30)
+  latitude   Decimal? @db.Decimal()
+  longitude  Decimal? @db.Decimal()
 }
 
 model User {

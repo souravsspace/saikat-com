@@ -53,8 +53,10 @@ export default function LoginCard() {
             redirect: false,
          })
 
-         if (res?.error) toast.error("Invalid email or password!")
-
+         if (res?.error) {
+            toast.error("Invalid email or password!")
+            return
+         }
          toast.success("Login successful!")
          router.push("/")
       } catch (error) {
