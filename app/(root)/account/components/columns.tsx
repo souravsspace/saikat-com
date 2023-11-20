@@ -12,7 +12,8 @@ export type ORDER_TYPE = {
    age: boolean
    phone: boolean
    country: string
-   createdAt: string
+   createdAt: Date | string
+   userId: string
 }
 
 export const columns: ColumnDef<ORDER_TYPE>[] = [

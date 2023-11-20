@@ -13,13 +13,13 @@ export default async function Account({
 }) {
    const userid = searchParams!.id as string
 
-   const orders = await prisma.order.findMany({
+   const orders: ORDER_TYPE[] = await prisma.order.findMany({
       where: {
          userId: userid,
       },
    })
 
-   const data: ORDER_TYPE[] = orders.map((order) => ({
+   const data: ORDER_TYPE[] = orders.map((order: ORDER_TYPE) => ({
       id: order.id,
       price: order.price,
       emails: order.emails,
@@ -28,7 +28,8 @@ export default async function Account({
       age: order.age,
       phone: order.phone,
       country: order.country,
-      createdAt: format(order.createdAt, "MMMM do, yyyy"),
+      createdAt: format(Number(order.createdAt as string), "MMMM do, yyyy"),
+      userId: order.userId,
    }))
 
    return (
