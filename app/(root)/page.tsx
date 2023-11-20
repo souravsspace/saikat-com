@@ -2,6 +2,8 @@ import EmailSection from "@/components/email-section"
 import Container from "@/components/ui/container"
 import prisma from "@/lib/prisma"
 
+export const revalidate = 0
+
 export default async function HomePage() {
    const data = await prisma.data.findMany()
    const country = data.map((item) => item.country)
