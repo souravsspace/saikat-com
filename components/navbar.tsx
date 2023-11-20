@@ -36,8 +36,11 @@ function Navbar() {
                   </Link>
                </h2>
                <ul className="flex items-center gap-3">
-                  <li className="mr-5 hidden sm:block">
+                  <li className="hidden sm:block">
                      <Link href="/service">Service</Link>
+                  </li>
+                  <li className="mr-5 hidden sm:block">
+                     <Link href="/why-choose-us">Why choose us?</Link>
                   </li>
                   <li>
                      {status === "authenticated" ? (
@@ -57,6 +60,14 @@ function Navbar() {
                               <DropdownMenuLabel>My Account</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuGroup>
+                                 <Link href={`/dashboard?id=${userId}`}>
+                                    <DropdownMenuItem>
+                                       Dashboard
+                                       <DropdownMenuShortcut>
+                                          ⇧⌘D
+                                       </DropdownMenuShortcut>
+                                    </DropdownMenuItem>
+                                 </Link>
                                  <Link href={`/account?id=${userId}`}>
                                     <DropdownMenuItem>
                                        Orders
@@ -83,11 +94,7 @@ function Navbar() {
                         <Link href={`/dashboard?id=${userId}`}>Dashboard</Link>
                      </li>
                   ) : (
-                     <>
-                        <li className="hidden sm:block">
-                           <Link href="/why-choose-us">Why choose us?</Link>
-                        </li>
-                     </>
+                     <></>
                   )}
                </ul>
             </div>

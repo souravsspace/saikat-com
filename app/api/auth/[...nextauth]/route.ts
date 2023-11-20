@@ -23,8 +23,6 @@ const handler = nextAuth({
             const email = credentials?.email as string
             const password = credentials?.password as string
 
-            console.log(email, password)
-
             if (!email || !password) return null
 
             const user = await prisma.user.findUnique({

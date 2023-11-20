@@ -5,6 +5,7 @@ import { DataTable } from "./data-table"
 import { ORDER_TYPE, columns } from "./columns"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export const revalidate = 0
 
@@ -21,7 +22,9 @@ export default function OrderClient({ data }: { data: ORDER_TYPE[] }) {
       <div className="space-y-5">
          <div className="flex items-center justify-between">
             <Heading title="Orders" subtitle="All of your orders are here." />
-            <Button variant="outline">Buy more</Button>
+            <Link href="/">
+               <Button variant="outline">Buy more</Button>
+            </Link>
          </div>
          <DataTable searchKey="country" columns={columns} data={data!} />
       </div>

@@ -34,6 +34,7 @@ interface EmailPricingCardProps {
    phonePrice: number
    addressPrice: number
    agePrice: number
+   countryList: (string | null)[]
 }
 
 export function EmailPricingCard(props: EmailPricingCardProps) {
@@ -65,6 +66,11 @@ export function EmailPricingCard(props: EmailPricingCardProps) {
                      </SelectTrigger>
                      <SelectContent>
                         <SelectGroup>
+                           {props.countryList.map((country) => (
+                              <SelectItem key={country} value={country!}>
+                                 {country}
+                              </SelectItem>
+                           ))}
                            <SelectItem value="usa">
                               {" "}
                               United States (USA)

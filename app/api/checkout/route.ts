@@ -42,35 +42,40 @@ export async function POST(request: Request) {
          },
       },
    })
+   // return NextResponse.json(order, { status: 200 })
 
-   return NextResponse.json(order, { status: 200 })
+   const line_item: Stripe.Checkout.SessionCreateParams.LineItem[] = []
 
-   // const line_item: Stripe.Checkout.SessionCreateParams.LineItem[] = []
+   const roundedTotal = Math.round(total!)
 
-   // line_item.push({
-   //    price_data: {
-   //       currency: "usd",
-   //       product_data: {
-   //          name: `Emails: ${emailCount} and others`,
-   //       },
-   //       unit_amount: total,
-   //    },
-   //    quantity: emailCount,
-   // })
+   line_item.push({
+      quantity: emailCount,
+      price_data: {
+         currency: "usd",
+         product_data: {
+            name: "Emails and other data",
+         },
+         unit_amount: roundedTotal,
+      },
+   })
 
-   // const session = await stripe.checkout.sessions.create({
-   //    line_items: line_item,
-   //    mode: "payment",
-   //    billing_address_collection: "required",
-   //    phone_number_collection: {
-   //       enabled: true,
-   //    },
-   //    success_url: `${origin}?success=1`,
-   //    cancel_url: `${origin}?cancel=1`,
-   //    metadata: {
-   //       order_id: order.id,
-   //    },
-   // })
+   console.log("line_item", line_item)
 
-   // return NextResponse.json({ url: session.url, id: order.id }, { status: 200 })
+   const session = await stripe.checkout.sessions.create({
+      line_items: line_item,
+      mode: "payment",
+      billing_address_collection: "required",
+      phone_number_collection: {
+         enabled: true,
+      },
+      success_url: `${origin}?success=1`,
+      cancel_url: `${origin}?cancel=1`,
+      metadata: {
+         order_id: order.id,
+      },
+   })
+
+   console.log(session)
+
+   return NextResponse.json({ url: session.url }, { status: 200 })
 }

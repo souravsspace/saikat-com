@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
@@ -45,6 +45,9 @@ export default function LoginCard() {
       resolver: zodResolver(schema),
    })
 
+   const { data: session } = useSession()
+   const userId = session?.user?.id!
+
    const onSubmit = async (data: formType) => {
       try {
          const res = await signIn("credentials", {
@@ -55,10 +58,12 @@ export default function LoginCard() {
 
          if (res?.error) {
             toast.error("Invalid email or password!")
-            return
          }
-         toast.success("Login successful!")
-         router.push("/")
+
+         if (res?.ok) {
+            router.push(`/dashboard?id=${userId}`)
+            toast.success("Login successful!")
+         }
       } catch (error) {
          toast.error("Something went wrong!")
       }

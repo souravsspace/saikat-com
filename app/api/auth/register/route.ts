@@ -33,6 +33,7 @@ export async function POST(request: Request) {
             password: hashedPassword,
          },
       })
+      console.log(user)
       return NextResponse.json({ user })
    } catch (error) {
       return NextResponse.json(

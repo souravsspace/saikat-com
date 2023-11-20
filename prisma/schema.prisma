@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/client"
 }
 
 datasource db {
@@ -9,63 +8,63 @@ datasource db {
 }
 
 model Data {
-  id         BigInt   @id @default(autoincrement()) @db.BigInt
-  first_name String?   @db.VarChar(100)
-  last_name  String?   @db.VarChar(100)
-  address    String?   @db.Text
-  county     String?   @db.VarChar(70)
-  city       String?   @db.VarChar(70)
-  state      String?   @db.VarChar(70)
-  zip        Int?      @db.Integer
-  phone      Int?      @db.Integer
-  carrier    String?   @db.Text
-  gender     String?   @db.VarChar(30)
-  ethnicity  String?  @db.Text
+  id         BigInt   @id @default(autoincrement())
+  first_name String?  @db.VarChar(100)
+  last_name  String?  @db.VarChar(100)
+  address    String?
+  country    String?  @db.VarChar(70)
+  city       String?  @db.VarChar(70)
+  state      String?  @db.VarChar(70)
+  zip        Int?
+  phone      Int?
+  carrier    String?
+  gender     String?  @db.VarChar(30)
+  ethnicity  String?
   ownrent    String?  @db.VarChar(30)
-  latitude   Decimal? @db.Decimal()
-  longitude  Decimal? @db.Decimal()
+  latitude   Decimal? @db.Decimal
+  longitude  Decimal? @db.Decimal
 }
 
 model User {
   id        String    @id @default(cuid())
   name      String    @db.VarChar(255)
   email     String    @unique
-  password  String
+  password  String    @db.Text
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  emails    Email[]   @relation("EmailToUser")
-  numbers   Number[]  @relation("NumberToUser")
   addresses Address[] @relation("AddressToUser")
   ages      Age[]     @relation("AgeToUser")
+  emails    Email[]   @relation("EmailToUser")
+  numbers   Number[]  @relation("NumberToUser")
   orders    Order[]   @relation("OrderToUser")
 }
 
 model Email {
   id     String @id @default(cuid())
   email  String
-  user   User   @relation("EmailToUser", fields: [userId], references: [email])
   userId String
+  user   User   @relation("EmailToUser", fields: [userId], references: [email])
 }
 
 model Number {
   id     String @id @default(cuid())
   number String
-  user   User   @relation("NumberToUser", fields: [userId], references: [email])
   userId String
+  user   User   @relation("NumberToUser", fields: [userId], references: [email])
 }
 
 model Address {
   id      String @id @default(cuid())
   address String
-  user    User   @relation("AddressToUser", fields: [userId], references: [email])
   userId  String
+  user    User   @relation("AddressToUser", fields: [userId], references: [email])
 }
 
 model Age {
   id     String @id @default(cuid())
   age    String
-  user   User   @relation("AgeToUser", fields: [userId], references: [email])
   userId String
+  user   User   @relation("AgeToUser", fields: [userId], references: [email])
 }
 
 model Order {
@@ -79,6 +78,6 @@ model Order {
   country   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation("OrderToUser", fields: [userId], references: [id])
   userId    String
+  user      User     @relation("OrderToUser", fields: [userId], references: [id])
 }

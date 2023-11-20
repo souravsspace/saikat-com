@@ -43,7 +43,7 @@ export default function CellAction({ data }: CellActionProps) {
    }
 
    return (
-      <>
+      <div className="mx-2 sm:mx-6">
          <DialogModel
             title="Receipt"
             onClose={onClose}
@@ -78,6 +78,6 @@ export default function CellAction({ data }: CellActionProps) {
                {/* )} */}
             </DropdownMenuContent>
          </DropdownMenu>
-      </>
+      </div>
    )
 }
