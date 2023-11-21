@@ -6,7 +6,7 @@ import OrderClient from "./components/client"
 
 export const revalidate = 0
 
-export default async function Account({
+export default async function OrderPage({
    searchParams,
 }: {
    searchParams?: { [key: string]: string | string[] | undefined }
@@ -16,6 +16,9 @@ export default async function Account({
    const orders: ORDER_TYPE[] = await prisma.order.findMany({
       where: {
          userId: userid,
+      },
+      orderBy: {
+         createdAt: "desc",
       },
    })
 

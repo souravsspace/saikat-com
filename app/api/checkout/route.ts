@@ -26,14 +26,20 @@ export async function POST(request: Request) {
       id,
    }: Partial<RequestJsonType> = await request.json()
 
+   if (!id) return NextResponse.json({ error: "No user id" }, { status: 400 })
+   if (!emailCount)
+      return NextResponse.json({ error: "No email count" }, { status: 400 })
+   if (!country)
+      return NextResponse.json({ error: "No country" }, { status: 400 })
+
    const order = await prisma.order.create({
       data: {
-         emails: Number(emailCount),
+         emails: Number(emailCount!),
          isPaid: false,
-         price: Number(total),
+         price: Number(total!),
          age,
          address,
-         country: !country || country === "" ? "usa" : country,
+         country,
          phone,
          user: {
             connect: {
@@ -42,11 +48,8 @@ export async function POST(request: Request) {
          },
       },
    })
-   // return NextResponse.json(order, { status: 200 })
 
    const line_item: Stripe.Checkout.SessionCreateParams.LineItem[] = []
-
-   const roundedTotal = Math.round(total!)
 
    line_item.push({
       quantity: emailCount,
@@ -55,11 +58,9 @@ export async function POST(request: Request) {
          product_data: {
             name: "Emails and other data",
          },
-         unit_amount: roundedTotal,
+         unit_amount: Math.round(total!),
       },
    })
-
-   console.log("line_item", line_item)
 
    const session = await stripe.checkout.sessions.create({
       line_items: line_item,
@@ -71,11 +72,9 @@ export async function POST(request: Request) {
       success_url: `${origin}?success=1`,
       cancel_url: `${origin}?cancel=1`,
       metadata: {
-         order_id: order.id,
+         orderId: order.id!,
       },
    })
-
-   console.log(session)
 
    return NextResponse.json({ url: session.url }, { status: 200 })
 }

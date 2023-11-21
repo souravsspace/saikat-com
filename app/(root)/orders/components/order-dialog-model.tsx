@@ -7,8 +7,8 @@ import {
    DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { ORDER_TYPE } from "@/app/(root)/account/components/columns"
-import PaymentReceipt from "../ui/receipt"
+import { ORDER_TYPE } from "@/app/(root)/orders/components/columns"
+import PaymentReceipt from "./receipt"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 
@@ -22,7 +22,7 @@ type Props = {
    data: ORDER_TYPE
 }
 
-export default function DialogModel({
+export default function OrderDialogModel({
    isOpen,
    onClose,
    onOpen,
@@ -41,49 +41,6 @@ export default function DialogModel({
          pdf.addImage(imageData, "PNG", 10, 10, 190, 0)
          pdf.save("payment_receipt.pdf")
       })
-
-      // const doc = new jsPDF("p", "mm", "a4")
-      // autoTable(doc, {
-      //    head: [
-      //       [
-      //          "Id",
-      //          "Quantity",
-      //          "Total",
-      //          "Paid",
-      //          "Phone",
-      //          "Address",
-      //          "Country",
-      //          "Age",
-      //       ],
-      //    ],
-      //    body: [
-      //       [
-      //          data.id,
-      //          data.emails,
-      //          data.price,
-      //          data.isPaid,
-      //          data.phone,
-      //          data.address,
-      //          data.country,
-      //          data.age,
-      //       ],
-      //    ],
-      // })
-
-      // doc.html(data, {
-      //    callback: function (doc) {
-      //       // Save the PDF
-      //       doc.save("document-html.pdf")
-      //    },
-      //    margin: [10, 10, 10, 10],
-      //    autoPaging: "text",
-      //    x: 0,
-      //    y: 0,
-      //    width: 190, //target width in the PDF document
-      //    windowWidth: 675, //window width in CSS pixels
-      // })
-
-      // doc.save("receipt.pdf")
    }
 
    return (

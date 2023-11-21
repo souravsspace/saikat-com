@@ -14,7 +14,7 @@ import {
    DropdownMenuShortcut,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Image from "next/image"
+import { ModeToggle } from "./theme/mode-toggle"
 
 function Navbar() {
    const { data: session, status } = useSession()
@@ -24,17 +24,14 @@ function Navbar() {
       <nav className="pt-4 sm:pt-8">
          <Container>
             <div className="flex justify-between items-center">
-               <h2 className="text-primary-100">
-                  <Link href="/">
-                     <Image
-                        src="/logo.png"
-                        alt="logo"
-                        width={150}
-                        height={150}
-                        className="object-contain"
-                     />
-                  </Link>
-               </h2>
+               <Link href="/">
+                  <h2 className="uppercase">
+                     <span className="text-3xl font-extrabold">hq</span>{" "}
+                     <span className="text-primary-300 text-sm font-extralight">
+                        dataleads
+                     </span>
+                  </h2>
+               </Link>
                <ul className="flex items-center gap-4">
                   <li className="hidden sm:block">
                      <Link href="/service">Service</Link>
@@ -77,7 +74,7 @@ function Navbar() {
                                        </DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                  </Link>
-                                 <Link href={`/account?id=${userId}`}>
+                                 <Link href={`/orders?id=${userId}`}>
                                     <DropdownMenuItem>
                                        Orders
                                        <DropdownMenuShortcut>
@@ -85,11 +82,12 @@ function Navbar() {
                                        </DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                  </Link>
-                                 <DropdownMenuItem onClick={() => signOut()}>
-                                    Logout
-                                    <DropdownMenuShortcut>
-                                       ⌘L
-                                    </DropdownMenuShortcut>
+                                 <DropdownMenuSeparator />
+                                 <DropdownMenuItem className="flex items-center justify-between">
+                                    <span onClick={() => signOut()}>
+                                       Logout
+                                    </span>
+                                    <ModeToggle />
                                  </DropdownMenuItem>
                               </DropdownMenuGroup>
                            </DropdownMenuContent>

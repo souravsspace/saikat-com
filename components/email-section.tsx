@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 import SummaryCard from "./summary-card"
 import { Button } from "./ui/button"
 import { EmailPricingCard } from "./email-pricing-card"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import axios from "axios"
 import { useSession } from "next-auth/react"
 import toast from "react-hot-toast"
@@ -46,6 +46,7 @@ export default function EmailSection({ filteredCountry }: EmailSectionProps) {
    const total = phonePrice + addressPrice + agePrice + priceOfEmails
 
    const session = useSession()
+   const router = useRouter()
 
    useEffect(() => {
       if (searchParams.get("success")) {
@@ -68,6 +69,10 @@ export default function EmailSection({ filteredCountry }: EmailSectionProps) {
    }
 
    const handleCheckout = async () => {
+      if (!session.data?.user?.id) {
+         router.push("/login")
+         return
+      }
       try {
          setLoading(true)
          const res = await axios.post("/api/checkout", data)

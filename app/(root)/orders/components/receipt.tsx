@@ -1,4 +1,4 @@
-import { ORDER_TYPE } from "@/app/(root)/account/components/columns"
+import { ORDER_TYPE } from "@/app/(root)/orders/components/columns"
 
 type Props = {
    data: ORDER_TYPE

@@ -13,7 +13,7 @@ export default async function HomePage() {
    )
 
    return (
-      <main>
+      <main className="relative">
          <Container>
             <EmailSection filteredCountry={filteredCountry!} />
          </Container>

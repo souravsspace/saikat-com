@@ -23,61 +23,68 @@ model Data {
   ownrent    String?  @db.VarChar(30)
   latitude   Decimal? @db.Decimal
   longitude  Decimal? @db.Decimal
+  email      String?  @db.VarChar(100)
+  age        Int?
+}
+
+model BlackListData {
+  id           String   @id @default(cuid())
+  first_name   String?  @db.VarChar(100)
+  last_name    String?  @db.VarChar(100)
+  email        String?  @db.VarChar(100)
+  address      String?
+  country      String?  @db.VarChar(70)
+  age          Int?
+  city         String?  @db.VarChar(70)
+  state        String?  @db.VarChar(70)
+  zip          Int?
+  phone        Int?
+  carrier      String?
+  gender       String?  @db.VarChar(30)
+  ethnicity    String?
+  ownrent      String?  @db.VarChar(30)
+  latitude     Decimal? @db.Decimal
+  longitude    Decimal? @db.Decimal
+  serverDataId BigInt
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String    @db.VarChar(255)
-  email     String    @unique
-  password  String    @db.Text
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  addresses Address[] @relation("AddressToUser")
-  ages      Age[]     @relation("AgeToUser")
-  emails    Email[]   @relation("EmailToUser")
-  numbers   Number[]  @relation("NumberToUser")
-  orders    Order[]   @relation("OrderToUser")
+  id            String         @id @default(cuid())
+  name          String         @db.VarChar(255)
+  email         String         @unique
+  password      String         @db.Text
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orders        Order[]        @relation("OrderToUser")
+  purchaseDatas PurchaseData[] @relation("PurchaseDataToUser")
 }
 
-model Email {
-  id     String @id @default(cuid())
-  email  String
-  userId String
-  user   User   @relation("EmailToUser", fields: [userId], references: [email])
-}
-
-model Number {
-  id     String @id @default(cuid())
-  number String
-  userId String
-  user   User   @relation("NumberToUser", fields: [userId], references: [email])
-}
-
-model Address {
-  id      String @id @default(cuid())
-  address String
-  userId  String
-  user    User   @relation("AddressToUser", fields: [userId], references: [email])
-}
-
-model Age {
-  id     String @id @default(cuid())
-  age    String
-  userId String
-  user   User   @relation("AgeToUser", fields: [userId], references: [email])
+model PurchaseData {
+  id        String  @id @default(cuid())
+  name      String?
+  email     String?
+  phone     Int?
+  age       Int?
+  address   String?
+  gender    String?
+  user      User?   @relation("PurchaseDataToUser", fields: [userId], references: [id])
+  userId    String?
+  orderData Order   @relation("PurchaseDataToOrder", fields: [orderId], references: [id])
+  orderId   String
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  price     Int
-  emails    Int
-  isPaid    Boolean  @default(false)
-  address   Boolean  @default(false)
-  age       Boolean  @default(false)
-  phone     Boolean  @default(false)
-  country   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation("OrderToUser", fields: [userId], references: [id])
+  id           String         @id @default(cuid())
+  price        Int
+  emails       Int
+  isPaid       Boolean
+  address      Boolean        @default(false)
+  age          Boolean        @default(false)
+  phone        Boolean        @default(false)
+  country      String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userId       String
+  user         User           @relation("OrderToUser", fields: [userId], references: [id])
+  purchaseData PurchaseData[] @relation("PurchaseDataToOrder")
 }

@@ -14,7 +14,7 @@ import toast from "react-hot-toast"
 import { ORDER_TYPE } from "./columns"
 import { deleteOrderHistory } from "@/actions/delete-order-history"
 import { useDialog } from "@/hooks/use-dialog"
-import DialogModel from "@/components/models/dialog-model"
+import DialogModel from "@/app/(root)/orders/components/order-dialog-model"
 
 interface CellActionProps {
    data: ORDER_TYPE
@@ -70,12 +70,12 @@ export default function CellAction({ data }: CellActionProps) {
                   <Trash className="h-4 w-4 mr-2" />
                   Delete
                </DropdownMenuItem>
-               {/* {data.isPaid && ( */}
-               <DropdownMenuItem onClick={() => viewReceipt()}>
-                  <Download className="h-4 w-4 mr-2" />
-                  View Receipt
-               </DropdownMenuItem>
-               {/* )} */}
+               {data.isPaid && (
+                  <DropdownMenuItem onClick={() => viewReceipt()}>
+                     <Download className="h-4 w-4 mr-2" />
+                     View Receipt
+                  </DropdownMenuItem>
+               )}
             </DropdownMenuContent>
          </DropdownMenu>
       </div>
