@@ -21,7 +21,11 @@ import { saveAs } from "file-saver"
 
 export const revalidate = 0
 
-export default function PurchaseClient({ data }: { data: PURCHASE_TYPE[] }) {
+interface PurchaseClientProps {
+   data: PURCHASE_TYPE[]
+}
+
+export default function PurchaseClient({ data }: PurchaseClientProps) {
    const [isMounted, setIsMounted] = useState(false)
 
    useEffect(() => {
@@ -88,17 +92,20 @@ export default function PurchaseClient({ data }: { data: PURCHASE_TYPE[] }) {
    return (
       <div className="space-y-5">
          <div className="flex items-center justify-between">
-            <Heading title="Purchased Data" subtitle="" />
+            <Heading
+               title="Data"
+               subtitle="Your purchased data || Download them or view them here"
+            />
 
             <DropdownMenu>
                <DropdownMenuTrigger>
                   <Button variant="outline">
-                     <span>View</span>
+                     <span>Download</span>
                      <Download className="h-5 w-5 ml-3" />
                   </Button>
                </DropdownMenuTrigger>
                <DropdownMenuContent align="end" className="w-44">
-                  <DropdownMenuLabel>Download</DropdownMenuLabel>
+                  <DropdownMenuLabel>Select file type</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => onDownloadPDF()}>
                      <FileText className="h-4 w-4 mr-2" />

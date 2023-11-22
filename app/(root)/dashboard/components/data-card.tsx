@@ -41,8 +41,9 @@ export default function DashboardsCard({ data }: Props) {
                   <h3>
                      <span className="font-semibold">Includes :</span>{" "}
                      <span className="text-sm">
-                        {data.phone ? "Phone" : ""},{" "}
-                        {data.address ? "address" : ""}, {data.age ? "Age" : ""}
+                        {data.phone && "Phone, "}
+                        {data.address && "Address, "}
+                        {data.age && "Age"}
                      </span>
                   </h3>
                   <h3>

@@ -15,6 +15,9 @@ export default async function DataPage({ params: { orderId } }: Props) {
       where: {
          orderId: orderId,
       },
+      orderBy: {
+         name: "asc",
+      },
    })
 
    return (

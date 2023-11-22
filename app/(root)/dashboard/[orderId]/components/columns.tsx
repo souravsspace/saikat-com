@@ -2,6 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import toast from "react-hot-toast"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export type PURCHASE_TYPE = {
    id: string
@@ -23,7 +25,19 @@ const onCopy = (value: string) => {
 export const columns: ColumnDef<PURCHASE_TYPE>[] = [
    {
       accessorKey: "name",
-      header: "Name",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Name
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <span
             className="cursor-copy"
@@ -35,7 +49,19 @@ export const columns: ColumnDef<PURCHASE_TYPE>[] = [
    },
    {
       accessorKey: "email",
-      header: "Email",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Email
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <span
             className="cursor-copy"
@@ -47,7 +73,19 @@ export const columns: ColumnDef<PURCHASE_TYPE>[] = [
    },
    {
       accessorKey: "phone",
-      header: "Phone",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Phone
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <span
             className="cursor-copy"
@@ -59,14 +97,38 @@ export const columns: ColumnDef<PURCHASE_TYPE>[] = [
    },
    {
       accessorKey: "age",
-      header: "Age",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Age
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <span>{row.original?.age ? row.original?.age : "N/A"}</span>
       ),
    },
    {
       accessorKey: "address",
-      header: "Address",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Address
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <span
             className="cursor-copy"
@@ -78,7 +140,19 @@ export const columns: ColumnDef<PURCHASE_TYPE>[] = [
    },
    {
       accessorKey: "gender",
-      header: "Gender",
+      header: ({ column }) => {
+         return (
+            <Button
+               variant="ghost"
+               onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+               }
+            >
+               Gender
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+         )
+      },
       cell: ({ row }) => (
          <>
             {row.original?.name ? (
